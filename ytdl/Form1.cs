@@ -100,6 +100,7 @@ namespace ytdl
             {
                 status.Text = "";
                 runbutton.Enabled = false;
+                button1.Enabled = false;
                 runbutton.Text = "Downloading";
                 string[] vqueue = queuebox.Text.Split('\n');
                 int i = 0;
@@ -132,6 +133,7 @@ namespace ytdl
                 else { }
                 runbutton.Text = "Start";
                 runbutton.Enabled = true;
+                button1.Enabled = true;
             }
         }
 
