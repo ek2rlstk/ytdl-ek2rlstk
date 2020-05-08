@@ -61,6 +61,7 @@ namespace ytdl
         private void addurlb_Click(object sender, EventArgs e)
         {
             urlparser(linkbox.Text);
+            linkbox.Text = "";
         }
 
         private void urlparser(string link)
@@ -68,28 +69,28 @@ namespace ytdl
             if (link.Contains("youtube.com"))
             {
                 string[] res = link.Split(new char[] { '=' });
-                queuebox.Text += "[youtube]" + res[1] + Environment.NewLine;
+                queuebox.AppendText("[youtube]" + res[1] + Environment.NewLine);
             }
             else if (link.Contains("youtu.be"))
             {
                 string[] res = link.Split(new string[] { "youtu.be/" }, System.StringSplitOptions.RemoveEmptyEntries);
                 if (link.Contains("//"))
                 {
-                    queuebox.Text += "[youtube]" + res[1] + Environment.NewLine;
+                    queuebox.AppendText("[youtube]" + res[1] + Environment.NewLine);
                 }
                 else
                 {
-                    queuebox.Text += "[youtube]" + res[0] + Environment.NewLine;
+                    queuebox.AppendText("[youtube]" + res[0] + Environment.NewLine);
                 }
             }
             else if (link.Contains("twitch.tv"))
             {
                 string[] res = link.Split(new string[] { "twitch.tv/" }, System.StringSplitOptions.RemoveEmptyEntries);
-                queuebox.Text += "[twitch]" + res[1] + Environment.NewLine;
+                queuebox.AppendText("[twitch]" + res[1] + Environment.NewLine);
             }
             else
             {
-                queuebox.Text += link + Environment.NewLine;
+                queuebox.AppendText(link + Environment.NewLine);
             }
         }
 
@@ -114,12 +115,12 @@ namespace ytdl
                     }
                     else if (vqueue[i].Contains("[twitch]"))
                     {
-                        string url = vqueue[i].Split(new string[] { "[twitch]" }, System.StringSplitOptions.RemoveEmptyEntries)[0];
+                        string url = vqueue[i].Split(new string[] { "[twitch]" }, System.StringSplitOptions.RemoveEmptyEntries)[0].TrimEnd('\r', '\n');
                         startdownload("https://www.twitch.tv/" + url);
                     }
                     else
                     {
-                        startdownload(vqueue[i]);
+                        startdownload(vqueue[i].TrimEnd('\r', '\n'));
                     }
                     i++;
                 }
@@ -139,20 +140,20 @@ namespace ytdl
             Process ps = null;
             if (option1.Checked)
             {
-                ps = Youtubedlload(url+ " -f \"bestvideo[ext = mp4] + bestaudio[ext = m4a] / best[ext = mp4] / best\" -o \"%(title)s.%(ext)s");
+                ps = Youtubedlload(url+ " -f \"bestvideo[ext = mp4] + bestaudio[ext = m4a] / best[ext = mp4] / best\" -o "+ Application.StartupPath + @"\%(title)s.%(ext)s");
                 ps.BeginOutputReadLine();
                 ps.BeginErrorReadLine();
-                ps.OutputDataReceived += (object sender, DataReceivedEventArgs e) => status.Text += e.Data + Environment.NewLine;
-                ps.ErrorDataReceived += (object sender, DataReceivedEventArgs e) => status.Text += e.Data + Environment.NewLine;
+                ps.OutputDataReceived += (object sender, DataReceivedEventArgs e) => status.AppendText(e.Data + Environment.NewLine);
+                ps.ErrorDataReceived += (object sender, DataReceivedEventArgs e) => status.AppendText(e.Data + Environment.NewLine);
                 ps.WaitForExit();
             }
             else if (option2.Checked)
             {
-                ps = Youtubedlload(url + " -f \"bestvideo+bestaudio/best\" -o \"%(title)s.%(ext)s");
+                ps = Youtubedlload(url + " -f \"bestvideo+bestaudio/best\" -o "+ Application.StartupPath + @"\%(title)s.%(ext)s");
                 ps.BeginOutputReadLine();
                 ps.BeginErrorReadLine();
-                ps.OutputDataReceived += (object sender, DataReceivedEventArgs e) => status.Text += e.Data + Environment.NewLine;
-                ps.ErrorDataReceived += (object sender, DataReceivedEventArgs e) => status.Text += e.Data + Environment.NewLine;
+                ps.OutputDataReceived += (object sender, DataReceivedEventArgs e) => status.AppendText(e.Data + Environment.NewLine);
+                ps.ErrorDataReceived += (object sender, DataReceivedEventArgs e) => status.AppendText(e.Data + Environment.NewLine);
                 ps.WaitForExit();
             }
 
@@ -166,15 +167,18 @@ namespace ytdl
                 ps.BeginErrorReadLine();
                 ps.WaitForExit();
                 Form2 form = new Form2();
-                form.textBox2.Text = fcode;
-                form.ShowDialog();
-                string format = form.text;
-                ps = Youtubedlload(url + " -f "+ format + " -o \"%(title)s.%(ext)s");
-                ps.BeginOutputReadLine();
-                ps.BeginErrorReadLine();
-                ps.OutputDataReceived += (object sender, DataReceivedEventArgs e) => status.Text += e.Data + Environment.NewLine;
-                ps.ErrorDataReceived += (object sender, DataReceivedEventArgs e) => status.Text += e.Data + Environment.NewLine;
-                ps.WaitForExit();
+                form.textBox2.AppendText(fcode);
+                DialogResult result = form.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    string format = form.text;
+                    ps = Youtubedlload(url + " -f " + format + " -o " + Application.StartupPath + @"\%(title)s.%(ext)s");
+                    ps.BeginOutputReadLine();
+                    ps.BeginErrorReadLine();
+                    ps.OutputDataReceived += (object sender, DataReceivedEventArgs e) => status.AppendText(e.Data + Environment.NewLine);
+                    ps.ErrorDataReceived += (object sender, DataReceivedEventArgs e) => status.AppendText(e.Data + Environment.NewLine);
+                    ps.WaitForExit();
+                }
             }
         }
 

@@ -21,6 +21,7 @@ namespace ytdl
         private void button1_Click(object sender, EventArgs e)
         {
             text = textBox1.Text;
+            this.DialogResult = DialogResult.OK;
             this.Dispose();
         }
     }
