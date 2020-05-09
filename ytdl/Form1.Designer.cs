@@ -43,6 +43,8 @@
             this.progress = new System.Windows.Forms.Label();
             this.status = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.directory = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -74,7 +76,7 @@
             this.linkbox.ReadOnly = true;
             this.linkbox.Size = new System.Drawing.Size(484, 21);
             this.linkbox.TabIndex = 2;
-            this.linkbox.Text = "영상 주소 입력";
+            this.linkbox.Text = "Enter Video Link";
             this.linkbox.Click += new System.EventHandler(this.linkbox_Click);
             // 
             // addurlb
@@ -83,7 +85,7 @@
             this.addurlb.Name = "addurlb";
             this.addurlb.Size = new System.Drawing.Size(90, 23);
             this.addurlb.TabIndex = 3;
-            this.addurlb.Text = "추가";
+            this.addurlb.Text = "Add";
             this.addurlb.UseVisualStyleBackColor = true;
             this.addurlb.Click += new System.EventHandler(this.addurlb_Click);
             // 
@@ -194,13 +196,32 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(41, 398);
+            this.button1.Location = new System.Drawing.Point(41, 397);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(130, 23);
             this.button1.TabIndex = 14;
             this.button1.Text = "Load txt";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(541, 397);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(90, 23);
+            this.button2.TabIndex = 15;
+            this.button2.Text = "Open Folder";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // directory
+            // 
+            this.directory.Location = new System.Drawing.Point(177, 398);
+            this.directory.Name = "directory";
+            this.directory.ReadOnly = true;
+            this.directory.Size = new System.Drawing.Size(358, 21);
+            this.directory.TabIndex = 16;
+            this.directory.Click += new System.EventHandler(this.directory_Click);
             // 
             // Form1
             // 
@@ -209,6 +230,8 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackgroundImage = global::ytdl.Properties.Resources.color6;
             this.ClientSize = new System.Drawing.Size(665, 427);
+            this.Controls.Add(this.directory);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.status);
             this.Controls.Add(this.progress);
@@ -248,6 +271,8 @@
         private System.Windows.Forms.Label progress;
         private System.Windows.Forms.TextBox status;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TextBox directory;
     }
 }
 

@@ -9,12 +9,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace ytdl
 {
     public partial class Form1 : Form
     {
         string isupdate = "";
+        string downloadpath = Application.StartupPath;
         public Form1()
         {
             InitializeComponent();
@@ -46,6 +48,7 @@ namespace ytdl
         private void Form1_Load(object sender, EventArgs e)
         {
             Initytdl("--update");
+            directory.Text = downloadpath;
             versionchecker.Text = isupdate;
         }
 
@@ -101,6 +104,7 @@ namespace ytdl
                 status.Text = "";
                 runbutton.Enabled = false;
                 button1.Enabled = false;
+                button2.Enabled = false;
                 runbutton.Text = "Downloading";
                 string[] vqueue = queuebox.Text.Split('\n');
                 int i = 0;
@@ -134,15 +138,17 @@ namespace ytdl
                 runbutton.Text = "Start";
                 runbutton.Enabled = true;
                 button1.Enabled = true;
+                button2.Enabled = true;
             }
         }
 
         private void startdownload(string url)
         {
             Process ps = null;
+            string fName = downloadpath + @"\%(title)s.%(ext)s";
             if (option1.Checked)
             {
-                ps = Youtubedlload(url+ " -f \"bestvideo[ext = mp4] + bestaudio[ext = m4a] / best[ext = mp4] / best\" -o "+ Application.StartupPath + @"\%(title)s.%(ext)s");
+                ps = Youtubedlload(url+ " -f \"bestvideo[ext = mp4] + bestaudio[ext = m4a] / best[ext = mp4] / best\" -o "+ fName);
                 ps.BeginOutputReadLine();
                 ps.BeginErrorReadLine();
                 ps.OutputDataReceived += (object sender, DataReceivedEventArgs e) => status.AppendText(e.Data + Environment.NewLine);
@@ -151,7 +157,7 @@ namespace ytdl
             }
             else if (option2.Checked)
             {
-                ps = Youtubedlload(url + " -f \"bestvideo+bestaudio/best\" -o "+ Application.StartupPath + @"\%(title)s.%(ext)s");
+                ps = Youtubedlload(url + " -f \"bestvideo+bestaudio/best\" -o "+ fName);
                 ps.BeginOutputReadLine();
                 ps.BeginErrorReadLine();
                 ps.OutputDataReceived += (object sender, DataReceivedEventArgs e) => status.AppendText(e.Data + Environment.NewLine);
@@ -174,7 +180,7 @@ namespace ytdl
                 if (result == DialogResult.OK)
                 {
                     string format = form.text;
-                    ps = Youtubedlload(url + " -f " + format + " -o " + Application.StartupPath + @"\%(title)s.%(ext)s");
+                    ps = Youtubedlload(url + " -f " + format + " -o " + fName);
                     ps.BeginOutputReadLine();
                     ps.BeginErrorReadLine();
                     ps.OutputDataReceived += (object sender, DataReceivedEventArgs e) => status.AppendText(e.Data + Environment.NewLine);
@@ -197,6 +203,29 @@ namespace ytdl
                 while ((line = file.ReadLine()) != null)
                 {
                     urlparser(line);
+                }
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Process.Start(downloadpath);
+        }
+
+        private void directory_Click(object sender, EventArgs e)
+        {
+            CommonOpenFileDialog dia = new CommonOpenFileDialog();
+            dia.IsFolderPicker = true;
+            if (dia.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                if (dia.FileName.EndsWith(@"\"))
+                {
+                    MessageBox.Show("Drive Root isn't supported!");
+                }
+                else
+                { 
+                    downloadpath = dia.FileName;
+                    directory.Text = dia.FileName;
                 }
             }
         }
