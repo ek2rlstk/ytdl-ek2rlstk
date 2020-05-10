@@ -69,32 +69,38 @@ namespace ytdl
 
         private void urlparser(string link)
         {
+            string item;
             if (link.Contains("youtube.com"))
             {
                 string[] res = link.Split(new char[] { '=' });
-                queuebox.AppendText("[youtube]" + res[1] + Environment.NewLine);
+                item = "[youtube]" + res[1] + Environment.NewLine;
             }
             else if (link.Contains("youtu.be"))
             {
                 string[] res = link.Split(new string[] { "youtu.be/" }, System.StringSplitOptions.RemoveEmptyEntries);
                 if (link.Contains("//"))
                 {
-                    queuebox.AppendText("[youtube]" + res[1] + Environment.NewLine);
+                    item = "[youtube]" + res[1] + Environment.NewLine;
                 }
                 else
                 {
-                    queuebox.AppendText("[youtube]" + res[0] + Environment.NewLine);
+                    item = "[youtube]" + res[0] + Environment.NewLine;
                 }
             }
             else if (link.Contains("twitch.tv"))
             {
                 string[] res = link.Split(new string[] { "twitch.tv/" }, System.StringSplitOptions.RemoveEmptyEntries);
-                queuebox.AppendText("[twitch]" + res[1] + Environment.NewLine);
+                item = "[twitch]" + res[1] + Environment.NewLine;
             }
             else
             {
-                queuebox.AppendText(link + Environment.NewLine);
+                item = link + Environment.NewLine;
             }
+            if (queuebox.Text.Contains(item))
+            {
+                queuebox.Text = queuebox.Text.Replace(item, "");
+            }
+            else queuebox.AppendText(item);
         }
 
         private void runbutton_Click(object sender, EventArgs e)
