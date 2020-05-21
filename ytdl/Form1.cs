@@ -135,6 +135,10 @@ namespace ytdl
                     }
                     i++;
                 }
+                if (checkBox1.Checked)
+                {
+                    Process.Start(downloadpath);
+                }
                 DialogResult dr = MessageBox.Show("Download is Completed, Are you Exit?", "Download Complete", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                 if (dr == DialogResult.OK)
                 {

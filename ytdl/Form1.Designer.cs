@@ -46,6 +46,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.directory = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -229,12 +230,23 @@
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(177, 395);
+            this.label2.Location = new System.Drawing.Point(176, 395);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(261, 23);
             this.label2.TabIndex = 17;
             this.label2.Text = "Download Folder (Click to Change)";
             this.label2.Click += new System.EventHandler(this.directory_Click);
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox1.Location = new System.Drawing.Point(444, 401);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(161, 16);
+            this.checkBox1.TabIndex = 18;
+            this.checkBox1.Text = "Complete->Open Folder";
+            this.checkBox1.UseVisualStyleBackColor = false;
             // 
             // Form1
             // 
@@ -243,6 +255,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackgroundImage = global::ytdl.Properties.Resources.color6;
             this.ClientSize = new System.Drawing.Size(665, 457);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.directory);
             this.Controls.Add(this.button2);
@@ -288,6 +301,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TextBox directory;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 
