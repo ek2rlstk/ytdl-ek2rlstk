@@ -158,7 +158,10 @@ namespace ytdl
             string fName = downloadpath + @"\%(title)s.%(ext)s";
             if (option1.Checked)
             {
-                ps = Youtubedlload(url+ " -f \"bestvideo[ext = mp4] + bestaudio[ext = m4a] / best[ext = mp4] / best\" -o "+ fName);
+                if (checkBox2.Checked)
+                    ps = Youtubedlload(url + " -f \"bestvideo[ext = mp4] + bestaudio[ext = m4a] / best[ext = mp4] / best\" -o " + fName + " -k ");
+                else
+                    ps = Youtubedlload(url+ " -f \"bestvideo[ext = mp4] + bestaudio[ext = m4a] / best[ext = mp4] / best\" -o "+ fName);
                 ps.BeginOutputReadLine();
                 ps.BeginErrorReadLine();
                 ps.OutputDataReceived += (object sender, DataReceivedEventArgs e) => status.AppendText(e.Data + Environment.NewLine);
@@ -167,7 +170,10 @@ namespace ytdl
             }
             else if (option2.Checked)
             {
-                ps = Youtubedlload(url + " -f \"bestvideo+bestaudio/best\" -o "+ fName);
+                if (checkBox2.Checked)
+                    ps = Youtubedlload(url + " -f \"bestvideo+bestaudio/best\" -o "+ fName + " -k ");
+                else
+                    ps = Youtubedlload(url + " -f \"bestvideo+bestaudio/best\" -o " + fName);
                 ps.BeginOutputReadLine();
                 ps.BeginErrorReadLine();
                 ps.OutputDataReceived += (object sender, DataReceivedEventArgs e) => status.AppendText(e.Data + Environment.NewLine);
@@ -190,7 +196,10 @@ namespace ytdl
                 if (result == DialogResult.OK)
                 {
                     string format = form.text;
-                    ps = Youtubedlload(url + " -f " + format + " -o " + fName);
+                    if (checkBox2.Checked)
+                        ps = Youtubedlload(url + " -f " + format + " -o " + fName + " -k ");
+                    else
+                        ps = Youtubedlload(url + " -f " + format + " -o " + fName);
                     ps.BeginOutputReadLine();
                     ps.BeginErrorReadLine();
                     ps.OutputDataReceived += (object sender, DataReceivedEventArgs e) => status.AppendText(e.Data + Environment.NewLine);
