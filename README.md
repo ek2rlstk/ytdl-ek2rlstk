@@ -11,7 +11,7 @@ youtube-dl을 통해 다운로드 받은 파일은 기본적으로 ytdl.exe와 �
 다운로드 폴더를 변경 - 클릭하라는 데 or 경로 클릭
 
 ## 같은 폴더에 위치!!
-youtube-dl.exe (https://youtube-dl.org/latest)
+youtube-dl.exe (https://youtube-dl.org/latest) -> now ytdl can download youtube-dl
 
 ffmpeg 바이너리 (https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-latest-win64-static.zip)
 
