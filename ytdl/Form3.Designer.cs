@@ -49,7 +49,7 @@
             this.Controls.Add(this.progressBar1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form3";
-            this.Text = "Downloading youtube-dl...";
+            this.Text = "Downloading...";
             this.Load += new System.EventHandler(this.Form3_Load);
             this.ResumeLayout(false);
 

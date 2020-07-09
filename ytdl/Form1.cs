@@ -1,10 +1,11 @@
 ﻿using System;
-using System.ComponentModel;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Ionic.Zip;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace ytdl
@@ -13,6 +14,9 @@ namespace ytdl
     {
         string isupdate = "";
         string downloadpath = Application.StartupPath;
+        string youtubedlpath = Application.StartupPath + @"\youtube-dl.exe";
+        string ffmpegpath = Application.StartupPath + @"\ffmpeg.exe";
+        string ffmpegzip = Application.StartupPath + @"\ffmpeg.zip";
         public Form1()
         {
             InitializeComponent();
@@ -20,7 +24,7 @@ namespace ytdl
 
         private Process Youtubedlload(string parameter)
         {
-            var process = new ProcessStartInfo(Application.StartupPath + @"\youtube-dl.exe");
+            var process = new ProcessStartInfo(youtubedlpath);
             process.Arguments = parameter;
             process.CreateNoWindow = true;
             process.UseShellExecute = false;
@@ -31,29 +35,27 @@ namespace ytdl
 
         private void Initytdl(string parameter)
         {
-            Process PStart = null;
-            try
-            {
-               PStart = Youtubedlload(parameter);
-            }
-            catch (Win32Exception)
+            FileInfo file = new FileInfo(youtubedlpath);
+            if (!file.Exists)
             {
                 MessageBox.Show("can't find youtube-dl, start download.");
-                Form3 dnld = new Form3();
+                Form3 dnld = new Form3(1);
                 DialogResult dnldcomplete = dnld.ShowDialog();
                 if (dnldcomplete == DialogResult.OK)
                 {
-                    PStart = Youtubedlload(parameter);
+                    MessageBox.Show("youtube-dl download is complete.");
                 }
                 else
                 {
                     DialogResult dr = MessageBox.Show("failed to download youtube-dl, please try again.", "youtube-dl download error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     if (dr == DialogResult.OK)
                     {
-                        this.Dispose();
+                        Dispose();
                     }
                 }
-            };
+            }
+                          
+            Process PStart = Youtubedlload(parameter);
             PStart.BeginOutputReadLine();
             PStart.OutputDataReceived += (object sender, DataReceivedEventArgs e) =>
             {
@@ -68,6 +70,51 @@ namespace ytdl
             Initytdl("--update");
             directory.Text = downloadpath;
             versionchecker.Text = isupdate;
+            FileInfo file2 = new FileInfo(ffmpegpath);
+            FileInfo ffzip = new FileInfo(ffmpegzip);
+            if (!file2.Exists)
+            {
+                DialogResult dr = MessageBox.Show("can't find ffmpeg, download it?", "download ffmpeg?", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                if (dr == DialogResult.OK)
+                {
+                    if (!ffzip.Exists)
+                    {
+                        Form3 dnld2 = new Form3(2);
+                        DialogResult drr = dnld2.ShowDialog();
+                        if (drr == DialogResult.No)
+                        {
+                            DialogResult ffe = MessageBox.Show("failed to download ffmpeg, please try again.", "ffmpeg download error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            if (ffe == DialogResult.OK)
+                            {
+                                Dispose();
+                            }
+                        }
+                    }
+                    uncompress(Application.StartupPath + @"\ffmpeg.zip");
+                    List<string> fffiles = Directory.GetFiles(Application.StartupPath + @"\ffmpeg-latest-win64-static\bin", "*.*", SearchOption.AllDirectories).ToList();
+                    foreach (string file in fffiles)
+                    {
+                        DirectoryInfo info = new DirectoryInfo(Application.StartupPath);
+                        FileInfo mFile = new FileInfo(file);
+                        if (new FileInfo(info + "\\" + mFile.Name).Exists == false)
+                        {
+                            mFile.MoveTo(info + "\\" + mFile.Name);
+                        }
+                    }
+                    DirectoryInfo temp = new DirectoryInfo(Application.StartupPath + @"\ffmpeg-latest-win64-static");
+                    temp.Delete(true);
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
+                    ffzip.Delete();
+                    MessageBox.Show("ffmpeg download is complete.");
+                }    
+            }
+        }
+
+        private void uncompress(string file)
+        {
+            var zip = new ZipFile(file);
+            zip.ExtractAll(Application.StartupPath);
         }
 
         private void linkbox_Click(object sender, EventArgs e)
@@ -161,7 +208,7 @@ namespace ytdl
                 DialogResult dr = MessageBox.Show("Download is Completed, Are you Exit?", "Download Complete", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                 if (dr == DialogResult.OK)
                 {
-                    this.Dispose();
+                    Dispose();
                 }
                 else { }
                 runbutton.Text = "Start";
@@ -269,6 +316,8 @@ namespace ytdl
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
             if (runbutton.Enabled == true)
             {
                 var ps = Process.GetProcessesByName("youtube-dl").FirstOrDefault();
@@ -281,7 +330,7 @@ namespace ytdl
                 {
                     var ps = Process.GetProcessesByName("youtube-dl").FirstOrDefault();
                     ps?.Kill();
-                    this.Dispose();
+                    Dispose();
                 }
                 else
                 {
