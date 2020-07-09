@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
@@ -35,7 +31,29 @@ namespace ytdl
 
         private void Initytdl(string parameter)
         {
-            Process PStart = Youtubedlload(parameter);
+            Process PStart = null;
+            try
+            {
+               PStart = Youtubedlload(parameter);
+            }
+            catch (Win32Exception)
+            {
+                MessageBox.Show("can't find youtube-dl, start download.");
+                Form3 dnld = new Form3();
+                DialogResult dnldcomplete = dnld.ShowDialog();
+                if (dnldcomplete == DialogResult.OK)
+                {
+                    PStart = Youtubedlload(parameter);
+                }
+                else
+                {
+                    DialogResult dr = MessageBox.Show("failed to download youtube-dl, please try again.", "youtube-dl download error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (dr == DialogResult.OK)
+                    {
+                        this.Dispose();
+                    }
+                }
+            };
             PStart.BeginOutputReadLine();
             PStart.OutputDataReceived += (object sender, DataReceivedEventArgs e) =>
             {
@@ -111,6 +129,7 @@ namespace ytdl
                 runbutton.Enabled = false;
                 button1.Enabled = false;
                 button2.Enabled = false;
+                addurlb.Enabled = false;
                 runbutton.Text = "Downloading";
                 string[] vqueue = queuebox.Text.Split('\n');
                 int i = 0;
@@ -149,6 +168,7 @@ namespace ytdl
                 runbutton.Enabled = true;
                 button1.Enabled = true;
                 button2.Enabled = true;
+                addurlb.Enabled = true;
             }
         }
 
@@ -166,7 +186,6 @@ namespace ytdl
                 ps.BeginErrorReadLine();
                 ps.OutputDataReceived += (object sender, DataReceivedEventArgs e) => status.AppendText(e.Data + Environment.NewLine);
                 ps.ErrorDataReceived += (object sender, DataReceivedEventArgs e) => status.AppendText(e.Data + Environment.NewLine);
-                ps.WaitForExit();
             }
             else if (option2.Checked)
             {
@@ -178,7 +197,6 @@ namespace ytdl
                 ps.BeginErrorReadLine();
                 ps.OutputDataReceived += (object sender, DataReceivedEventArgs e) => status.AppendText(e.Data + Environment.NewLine);
                 ps.ErrorDataReceived += (object sender, DataReceivedEventArgs e) => status.AppendText(e.Data + Environment.NewLine);
-                ps.WaitForExit();
             }
 
             if (option3.Checked)
@@ -204,9 +222,9 @@ namespace ytdl
                     ps.BeginErrorReadLine();
                     ps.OutputDataReceived += (object sender, DataReceivedEventArgs e) => status.AppendText(e.Data + Environment.NewLine);
                     ps.ErrorDataReceived += (object sender, DataReceivedEventArgs e) => status.AppendText(e.Data + Environment.NewLine);
-                    ps.WaitForExit();
                 }
             }
+            ps.WaitForExit();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -245,6 +263,29 @@ namespace ytdl
                 { 
                     downloadpath = dia.FileName;
                     directory.Text = dia.FileName;
+                }
+            }
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (runbutton.Enabled == true)
+            {
+                var ps = Process.GetProcessesByName("youtube-dl").FirstOrDefault();
+                ps?.Kill();
+            }
+            else
+            {
+                DialogResult dr = MessageBox.Show("Download is Processing, Are you Exit?", "Download Processing", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                if (dr == DialogResult.OK)
+                {
+                    var ps = Process.GetProcessesByName("youtube-dl").FirstOrDefault();
+                    ps?.Kill();
+                    this.Dispose();
+                }
+                else
+                {
+                    e.Cancel = true;
                 }
             }
         }
