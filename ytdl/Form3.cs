@@ -31,7 +31,7 @@ namespace ytdl
             }
             else if (sel == 2)
             {
-                downloadlink = "https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-latest-win64-static.zip";
+                downloadlink = "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip";
                 downloadfile = Application.StartupPath + @"\ffmpeg.zip";
             }
             wc.DownloadProgressChanged += DownloadChanged;

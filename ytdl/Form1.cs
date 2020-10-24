@@ -91,7 +91,14 @@ namespace ytdl
                         }
                     }
                     uncompress(Application.StartupPath + @"\ffmpeg.zip");
-                    List<string> fffiles = Directory.GetFiles(Application.StartupPath + @"\ffmpeg-latest-win64-static\bin", "*.*", SearchOption.AllDirectories).ToList();
+                    string binpath = "";
+                    List<string> fffolders = Directory.GetDirectories(Application.StartupPath).ToList();
+                    foreach (string dir in fffolders)
+                    {
+                        if (dir.Contains("ffmpeg") && dir.Contains("essentials"))
+                            binpath = dir;
+                    }
+                    List<string> fffiles = Directory.GetFiles(binpath + @"\bin", "*.*", SearchOption.AllDirectories).ToList();
                     foreach (string file in fffiles)
                     {
                         DirectoryInfo info = new DirectoryInfo(Application.StartupPath);
@@ -101,13 +108,13 @@ namespace ytdl
                             mFile.MoveTo(info + "\\" + mFile.Name);
                         }
                     }
-                    DirectoryInfo temp = new DirectoryInfo(Application.StartupPath + @"\ffmpeg-latest-win64-static");
+                    DirectoryInfo temp = new DirectoryInfo(binpath);
                     temp.Delete(true);
                     GC.Collect();
                     GC.WaitForPendingFinalizers();
                     ffzip.Delete();
-                    MessageBox.Show("ffmpeg download is complete.");
-                }    
+                    MessageBox.Show("ffmpeg download is completed.");
+                }
             }
         }
 
