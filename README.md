@@ -18,7 +18,7 @@ youtube-dl을 통해 다운로드 받은 파일은 기본적으로 ytdl.exe와 �
 
 youtube-dl.exe (https://youtube-dl.org/latest)
 
-ffmpeg (optional) (https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-latest-win64-static.zip)
+ffmpeg (optional) (https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip)
 
 ## Uses
 
