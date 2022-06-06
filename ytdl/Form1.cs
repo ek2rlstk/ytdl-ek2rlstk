@@ -144,8 +144,16 @@ namespace ytdl
             string item;
             if (link.Contains("youtube.com"))
             {
-                string[] res = link.Split(new char[] { '=' });
-                item = "[youtube]" + res[1] + Environment.NewLine;
+                if (link.Contains("shorts"))
+                {
+                    string[] res = link.Split(new string[] { "shorts/" }, System.StringSplitOptions.RemoveEmptyEntries);
+                    item = "[youtube shorts]" + res[1] + Environment.NewLine;
+                }
+                else
+                {
+                    string[] res = link.Split(new char[] { '=' });
+                    item = "[youtube]" + res[1] + Environment.NewLine;
+                }
             }
             else if (link.Contains("youtu.be"))
             {
@@ -196,6 +204,11 @@ namespace ytdl
                     {
                         string url = vqueue[i].Split(new string[] { "[youtube]" }, System.StringSplitOptions.RemoveEmptyEntries)[0].TrimEnd('\r', '\n');
                         startdownload("https://www.youtube.com/watch?v=" + url);
+                    }
+                    else if (vqueue[i].Contains("[youtube shorts]"))
+                    {
+                        string url = vqueue[i].Split(new string[] { "[youtube shorts]" }, System.StringSplitOptions.RemoveEmptyEntries)[0].TrimEnd('\r', '\n');
+                        startdownload("https://www.youtube.com/shorts/" + url);
                     }
                     else if (vqueue[i].Contains("[twitch]"))
                     {
