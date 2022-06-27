@@ -14,7 +14,7 @@ namespace ytdl
     {
         string isupdate = "";
         string downloadpath = Application.StartupPath;
-        string youtubedlpath = Application.StartupPath + @"\youtube-dl.exe";
+        string youtubedlpath = Application.StartupPath + @"\yt-dlp.exe";
         string ffmpegpath = Application.StartupPath + @"\ffmpeg.exe";
         string ffmpegzip = Application.StartupPath + @"\ffmpeg.zip";
         public Form1()
@@ -265,8 +265,19 @@ namespace ytdl
                 ps.OutputDataReceived += (object sender, DataReceivedEventArgs e) => status.AppendText(e.Data + Environment.NewLine);
                 ps.ErrorDataReceived += (object sender, DataReceivedEventArgs e) => status.AppendText(e.Data + Environment.NewLine);
             }
+            else if (option3.Checked)
+            {
+                if (checkBox2.Checked)
+                    ps = Youtubedlload(url + " -f \"bestaudio\" -x --audio-format mp3 --audio-quality 320K -o " + fName + " -k ");
+                else
+                    ps = Youtubedlload(url + " -f \"bestaudio\" -x --audio-format mp3 --audio-quality 320K -o " + fName);
+                ps.BeginOutputReadLine();
+                ps.BeginErrorReadLine();
+                ps.OutputDataReceived += (object sender, DataReceivedEventArgs e) => status.AppendText(e.Data + Environment.NewLine);
+                ps.ErrorDataReceived += (object sender, DataReceivedEventArgs e) => status.AppendText(e.Data + Environment.NewLine);
+            }
 
-            if (option3.Checked)
+            if (option4.Checked)
             {
                 string fcode = "";
                 ps = Youtubedlload("-F " + url);

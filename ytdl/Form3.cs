@@ -26,8 +26,8 @@ namespace ytdl
         {
             if (sel == 1)
             {
-                downloadlink = "https://youtube-dl.org/downloads/latest/youtube-dl.exe";
-                downloadfile = Application.StartupPath + @"\youtube-dl.exe";
+                downloadlink = "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe";
+                downloadfile = Application.StartupPath + @"\yt-dlp.exe";
             }
             else if (sel == 2)
             {

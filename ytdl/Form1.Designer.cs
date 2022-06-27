@@ -38,7 +38,7 @@
             this.option1 = new System.Windows.Forms.RadioButton();
             this.options = new System.Windows.Forms.Label();
             this.option2 = new System.Windows.Forms.RadioButton();
-            this.option3 = new System.Windows.Forms.RadioButton();
+            this.option4 = new System.Windows.Forms.RadioButton();
             this.runbutton = new System.Windows.Forms.Button();
             this.progress = new System.Windows.Forms.Label();
             this.status = new System.Windows.Forms.TextBox();
@@ -48,6 +48,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.option3 = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // label1
@@ -77,14 +78,14 @@
             this.linkbox.Location = new System.Drawing.Point(41, 111);
             this.linkbox.Name = "linkbox";
             this.linkbox.ReadOnly = true;
-            this.linkbox.Size = new System.Drawing.Size(484, 21);
+            this.linkbox.Size = new System.Drawing.Size(499, 21);
             this.linkbox.TabIndex = 2;
             this.linkbox.Text = "Enter Video Link (Duplicate link -> delete)";
             this.linkbox.Click += new System.EventHandler(this.linkbox_Click);
             // 
             // addurlb
             // 
-            this.addurlb.Location = new System.Drawing.Point(541, 111);
+            this.addurlb.Location = new System.Drawing.Point(542, 111);
             this.addurlb.Name = "addurlb";
             this.addurlb.Size = new System.Drawing.Size(90, 23);
             this.addurlb.TabIndex = 3;
@@ -121,7 +122,7 @@
             this.option1.BackColor = System.Drawing.Color.Transparent;
             this.option1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.option1.Checked = true;
-            this.option1.Location = new System.Drawing.Point(294, 173);
+            this.option1.Location = new System.Drawing.Point(286, 173);
             this.option1.Name = "option1";
             this.option1.Size = new System.Drawing.Size(47, 16);
             this.option1.TabIndex = 6;
@@ -145,24 +146,24 @@
             this.option2.AutoSize = true;
             this.option2.BackColor = System.Drawing.Color.Transparent;
             this.option2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.option2.Location = new System.Drawing.Point(363, 173);
+            this.option2.Location = new System.Drawing.Point(339, 173);
             this.option2.Name = "option2";
-            this.option2.Size = new System.Drawing.Size(58, 16);
+            this.option2.Size = new System.Drawing.Size(47, 16);
             this.option2.TabIndex = 9;
-            this.option2.Text = "webm";
+            this.option2.Text = "best";
             this.option2.UseVisualStyleBackColor = false;
             // 
-            // option3
+            // option4
             // 
-            this.option3.AutoSize = true;
-            this.option3.BackColor = System.Drawing.Color.Transparent;
-            this.option3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.option3.Location = new System.Drawing.Point(437, 173);
-            this.option3.Name = "option3";
-            this.option3.Size = new System.Drawing.Size(88, 16);
-            this.option3.TabIndex = 10;
-            this.option3.Text = "User Select";
-            this.option3.UseVisualStyleBackColor = false;
+            this.option4.AutoSize = true;
+            this.option4.BackColor = System.Drawing.Color.Transparent;
+            this.option4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.option4.Location = new System.Drawing.Point(452, 173);
+            this.option4.Name = "option4";
+            this.option4.Size = new System.Drawing.Size(88, 16);
+            this.option4.TabIndex = 10;
+            this.option4.Text = "User Select";
+            this.option4.UseVisualStyleBackColor = false;
             // 
             // runbutton
             // 
@@ -253,12 +254,24 @@
             // 
             this.checkBox2.AutoSize = true;
             this.checkBox2.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox2.Location = new System.Drawing.Point(421, 146);
+            this.checkBox2.Location = new System.Drawing.Point(542, 145);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(79, 16);
             this.checkBox2.TabIndex = 19;
             this.checkBox2.Text = "Keep Part";
             this.checkBox2.UseVisualStyleBackColor = false;
+            // 
+            // option3
+            // 
+            this.option3.AutoSize = true;
+            this.option3.BackColor = System.Drawing.Color.Transparent;
+            this.option3.Location = new System.Drawing.Point(392, 173);
+            this.option3.Name = "option3";
+            this.option3.Size = new System.Drawing.Size(54, 16);
+            this.option3.TabIndex = 20;
+            this.option3.TabStop = true;
+            this.option3.Text = "audio";
+            this.option3.UseVisualStyleBackColor = false;
             // 
             // Form1
             // 
@@ -267,6 +280,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackgroundImage = global::ytdl.Properties.Resources.color6;
             this.ClientSize = new System.Drawing.Size(665, 457);
+            this.Controls.Add(this.option3);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label2);
@@ -276,7 +290,7 @@
             this.Controls.Add(this.status);
             this.Controls.Add(this.progress);
             this.Controls.Add(this.runbutton);
-            this.Controls.Add(this.option3);
+            this.Controls.Add(this.option4);
             this.Controls.Add(this.option2);
             this.Controls.Add(this.options);
             this.Controls.Add(this.option1);
@@ -307,7 +321,7 @@
         private System.Windows.Forms.RadioButton option1;
         private System.Windows.Forms.Label options;
         private System.Windows.Forms.RadioButton option2;
-        private System.Windows.Forms.RadioButton option3;
+        private System.Windows.Forms.RadioButton option4;
         private System.Windows.Forms.Button runbutton;
         private System.Windows.Forms.Label progress;
         private System.Windows.Forms.TextBox status;
@@ -317,6 +331,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.RadioButton option3;
     }
 }
 
