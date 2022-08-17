@@ -17,6 +17,7 @@ namespace ytdl
         string youtubedlpath = Application.StartupPath + @"\yt-dlp.exe";
         string ffmpegpath = Application.StartupPath + @"\ffmpeg.exe";
         string ffmpegzip = Application.StartupPath + @"\ffmpeg.zip";
+        string pathfile = Application.StartupPath + @"\config.cfg";
         public Form1()
         {
             InitializeComponent();
@@ -68,6 +69,15 @@ namespace ytdl
         private void Form1_Load(object sender, EventArgs e)
         {
             Initytdl("--update");
+            FileInfo pfile = new FileInfo(pathfile);
+            if(pfile.Exists)
+            {
+                string dpath = File.ReadAllText(pathfile);
+                if (dpath != "")
+                {
+                    downloadpath = dpath;
+                }
+            }
             directory.Text = downloadpath;
             versionchecker.Text = isupdate;
             FileInfo file2 = new FileInfo(ffmpegpath);
@@ -341,6 +351,7 @@ namespace ytdl
                 { 
                     downloadpath = dia.FileName;
                     directory.Text = dia.FileName;
+                    File.WriteAllText(pathfile, downloadpath);
                 }
             }
         }
